@@ -6,6 +6,12 @@
 #ifndef TFT_PRIVATE_H
 #define TFT_PRIVATE_H
 
+// tft commands
+#define memoryWrite         0x2c
+#define setRowAddress       0x2b
+#define seColumonAddress    0x2a
+
+
 static void voidWriteCommand(u8 Copy_u8Command);
 static void voidWriteData   (u8 Copy_u8Data);
 static void voidWriteu16Data   (u16 Copy_u16Data);

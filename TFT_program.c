@@ -92,7 +92,7 @@ static void voidWriteCommand(u8 Copy_u8Command)
 
 static void voidWriteu16Data   (u16 Copy_u16Data)
 {
-	
+
 	u16 Data;
 	Data = Copy_u16Data >> 8;
 
@@ -122,14 +122,14 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 	u16 counter;
 
 	/* Set X Address */
-	voidWriteCommand(0x2A);
+	voidWriteCommand(seColumonAddress);
 	voidWriteData(0);
 	voidWriteData(0);
 	voidWriteData(0);
 	voidWriteData(127);
-	
+
 	/* Set Y Address */
-	voidWriteCommand(0x2B);
+	voidWriteCommand(setRowAddress);
 	voidWriteData(0);
 	voidWriteData(0);
 	voidWriteData(0);
@@ -142,6 +142,62 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 	{
 		voidWriteu16Data(Copy_u16Color);
 	}
+
+
+}
+
+
+void HTFT_voidDrawChar (u16 Copy_u16Color)
+{
+
+
+	/* Set X Address */
+	voidWriteCommand(seColumonAddress);
+	voidWriteData(0);
+	voidWriteData(0);
+	voidWriteData(0);
+	voidWriteData(15);
+
+	/* Set Y Address */
+	voidWriteCommand(setRowAddress);
+	voidWriteData(0);
+	voidWriteData(0);
+	voidWriteData(0);
+	voidWriteData(15);
+
+	/* RAM Write */
+	voidWriteCommand(memoryWrite);
+
+	u16 num1arr[16][16] = {
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}
+	};
+
+
+	for(u8 i=0 ; i<16 ; i++)
+	{
+		for(u8 j=0 ; j<16 ; j++)
+		{
+			voidWriteu16Data(num1arr[i][j] && Copy_u16Color);
+		}
+
+	}
+
+
 
 
 }
