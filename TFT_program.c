@@ -147,52 +147,50 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 }
 
 
-void HTFT_voidDrawChar (u16 Copy_u16Color)
+void HTFT_voidDrawChar (u16* Copy_u16Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space)
 {
+
+	u8 xStart = Copy_u8Space*16;
+	u8 xEnd   = xStart+15;
+
+	u8 yStart = Copy_u8Line*16;
+	u8 yEnd   = yStart+15;
 
 
 	/* Set X Address */
 	voidWriteCommand(seColumonAddress);
 	voidWriteData(0);
+	voidWriteData(xStart);
 	voidWriteData(0);
-	voidWriteData(0);
-	voidWriteData(15);
+	voidWriteData(xEnd);
 
 	/* Set Y Address */
 	voidWriteCommand(setRowAddress);
 	voidWriteData(0);
+	voidWriteData(yStart);
 	voidWriteData(0);
-	voidWriteData(0);
-	voidWriteData(15);
+	voidWriteData(yEnd);
 
 	/* RAM Write */
 	voidWriteCommand(memoryWrite);
 
-	u16 num1arr[16][16] = {
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}
-	};
+
+
+
 
 
 	for(u8 i=0 ; i<16 ; i++)
 	{
 		for(u8 j=0 ; j<16 ; j++)
 		{
-			voidWriteu16Data(num1arr[i][j] && Copy_u16Color);
+			// draw colomuns starts from bottom
+			if( (Copy_u16Char[15-i]>>j) & 0x01 ){
+				voidWriteu16Data(Copy_u16Color);
+			}
+			else{
+				voidWriteu16Data(black);
+			}
+
 		}
 
 	}
