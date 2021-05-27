@@ -14,7 +14,6 @@
 #include "TFT_interface.h"
 #include "TFT_private.h"
 #include "TFT_config.h"
-#include "BASIC_5X5_FONT.h"
 #include "font10x16.h"
 
 void HTFT_voidInitialize   (void)
@@ -153,6 +152,16 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space)
 {
 
+	HTFT_voidSetCursor(Copy_u8Line, Copy_u8Space);
+
+	voidDrawfont16x16Char(Copy_u8Char, Copy_u16Color);
+
+
+}
+
+
+void HTFT_voidSetCursor     (u8 Copy_u8Line, u8 Copy_u8Space){
+	
 	u8 xStart = Copy_u8Line*16;
 	u8 xEnd   = xStart+15;
 
@@ -174,18 +183,23 @@ void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Co
 	voidWriteData(0);
 	voidWriteData(yEnd);
 
-	/* RAM Write */
+
+}
+
+
+void voidDrawfont16x16Char (u8 Copy_u8Char, u16 Copy_u16Color){
+
+		/* RAM Write */
 	voidWriteCommand(memoryWrite);
 
-
-
+		/* select char from ascii table then select from font16x16 array */
 	u16 mychar = (Copy_u8Char-32)*33;
 
 	// loop for draw raws
 	for(u8 i=0 ; i<32 ; i+=2)
 	{
 
-		// loop to draw colomuns
+		// loop to draw top half colomun
 		for(u8 j=0 ; j<8 ; j++)
 		{
 			// draw colomuns starts from bottom
@@ -197,6 +211,7 @@ void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Co
 			}
 
 		}
+		// loop to draw bottom half colomun
 		for(u8 j=0 ; j<8 ; j++)
 		{
 			// draw colomuns starts from bottom
@@ -211,8 +226,5 @@ void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Co
 
 
 	}
-
-
-
 
 }
