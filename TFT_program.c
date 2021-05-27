@@ -3,6 +3,7 @@
 /* Date      : 25 may 2021                                 */
 /* Version   : V01                                         */
 /***********************************************************/
+#include <font16x16.h>
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 
@@ -13,6 +14,8 @@
 #include "TFT_interface.h"
 #include "TFT_private.h"
 #include "TFT_config.h"
+#include "BASIC_5X5_FONT.h"
+#include "font10x16.h"
 
 void HTFT_voidInitialize   (void)
 {
@@ -29,7 +32,7 @@ void HTFT_voidInitialize   (void)
 	MSTK_voidSetBusyWait(120000);
 	
 	/* Sleep Out Command */
-	voidWriteCommand(0x11);
+	voidWriteCommand(sleepOut);
 	
 	/* Wait 150 ms */
 	MSTK_voidSetBusyWait(150000);
@@ -39,7 +42,7 @@ void HTFT_voidInitialize   (void)
 	voidWriteData   (0x05);
 	
 	/* Display On Command */
-	voidWriteCommand(0x29);
+	voidWriteCommand(displayOn);
 }
 
 
@@ -147,13 +150,13 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 }
 
 
-void HTFT_voidDrawChar (u16* Copy_u16Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space)
+void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space)
 {
 
-	u8 xStart = Copy_u8Space*16;
+	u8 xStart = Copy_u8Line*16;
 	u8 xEnd   = xStart+15;
 
-	u8 yStart = Copy_u8Line*16;
+	u8 yStart = Copy_u8Space*16;
 	u8 yEnd   = yStart+15;
 
 
@@ -176,15 +179,17 @@ void HTFT_voidDrawChar (u16* Copy_u16Char, u16 Copy_u16Color, u8 Copy_u8Line, u8
 
 
 
+	u16 mychar = (Copy_u8Char-32)*33;
 
-
-
-	for(u8 i=0 ; i<16 ; i++)
+	// loop for draw raws
+	for(u8 i=0 ; i<32 ; i+=2)
 	{
-		for(u8 j=0 ; j<16 ; j++)
+
+		// loop to draw colomuns
+		for(u8 j=0 ; j<8 ; j++)
 		{
 			// draw colomuns starts from bottom
-			if( (Copy_u16Char[15-i]>>j) & 0x01 ){
+			if( (Tahoma16x16[mychar+i+1]>>j) & 0x01 ){
 				voidWriteu16Data(Copy_u16Color);
 			}
 			else{
@@ -192,6 +197,18 @@ void HTFT_voidDrawChar (u16* Copy_u16Char, u16 Copy_u16Color, u8 Copy_u8Line, u8
 			}
 
 		}
+		for(u8 j=0 ; j<8 ; j++)
+		{
+			// draw colomuns starts from bottom
+			if( (Tahoma16x16[(mychar+i+1)+1]>>j) & 0x01 ){
+				voidWriteu16Data(Copy_u16Color);
+			}
+			else{
+				voidWriteu16Data(black);
+			}
+
+		}
+
 
 	}
 

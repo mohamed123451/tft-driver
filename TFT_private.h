@@ -10,6 +10,10 @@
 #define memoryWrite         0x2c
 #define setRowAddress       0x2b
 #define seColumonAddress    0x2a
+#define sleepOut            0x11
+#define sleepIn             0x10
+#define displayOn           0x29
+#define displayOff          0x28
 
 
 static void voidWriteCommand(u8 Copy_u8Command);
