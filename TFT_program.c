@@ -149,24 +149,24 @@ void HTFT_voidFillColor (u16 Copy_u16Color)
 }
 
 
-void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space)
+void HTFT_voidDrawChar (u8 Copy_u8Char, u16 Copy_u16Color, u16 Copy_u16BackgroundColor, u8 Copy_u8Line, u8 Copy_u8Space)
 {
 
 	HTFT_voidSetCursor(Copy_u8Line, Copy_u8Space);
 
-	voidDrawfont16x16Char(Copy_u8Char, Copy_u16Color);
+	voidDrawfont16x16Char(Copy_u8Char, Copy_u16Color, Copy_u16BackgroundColor);
 
 
 }
 
 
 void HTFT_voidSetCursor     (u8 Copy_u8Line, u8 Copy_u8Space){
-	
-	u8 xStart = Copy_u8Line*16;
-	u8 xEnd   = xStart+15;
 
-	u8 yStart = Copy_u8Space*16;
-	u8 yEnd   = yStart+15;
+	u8 xStart = (Copy_u8Line-1)*16;
+	u8 xEnd   = (xStart)+15;
+
+	u8 yStart = (10-Copy_u8Space)*16;
+	u8 yEnd   = (yStart)+15;
 
 
 	/* Set X Address */
@@ -187,7 +187,7 @@ void HTFT_voidSetCursor     (u8 Copy_u8Line, u8 Copy_u8Space){
 }
 
 
-void voidDrawfont16x16Char (u8 Copy_u8Char, u16 Copy_u16Color){
+void voidDrawfont16x16Char (u8 Copy_u8Char, u16 Copy_u16Color, u16 Copy_u16BackgroundColor){
 
 		/* RAM Write */
 	voidWriteCommand(memoryWrite);
@@ -207,7 +207,7 @@ void voidDrawfont16x16Char (u8 Copy_u8Char, u16 Copy_u16Color){
 				voidWriteu16Data(Copy_u16Color);
 			}
 			else{
-				voidWriteu16Data(black);
+				voidWriteu16Data(Copy_u16BackgroundColor);
 			}
 
 		}
@@ -219,7 +219,7 @@ void voidDrawfont16x16Char (u8 Copy_u8Char, u16 Copy_u16Color){
 				voidWriteu16Data(Copy_u16Color);
 			}
 			else{
-				voidWriteu16Data(black);
+				voidWriteu16Data(Copy_u16BackgroundColor);
 			}
 
 		}

@@ -18,7 +18,7 @@
 void HTFT_voidInitialize    (void);
 void HTFT_voidDisplayImage  (const u16* Copy_Image);
 void HTFT_voidFillColor     (u16 Copy_u16Color);
-void HTFT_voidDrawChar      (u8 Copy_u8Char, u16 Copy_u16Color, u8 Copy_u8Line, u8 Copy_u8Space);
+void HTFT_voidDrawChar      (u8 Copy_u8Char, u16 Copy_u16Color, u16 Copy_u16BackgroundColor, u8 Copy_u8Line, u8 Copy_u8Space);
 void HTFT_voidSetCursor     (u8 line, u8 space);
 
 
